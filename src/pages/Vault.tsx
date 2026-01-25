@@ -1,28 +1,15 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Trash2, Eye, EyeOff, QrCode, Copy } from 'lucide-react';
+import { Plus, Trash2, QrCode } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 
 export const Vault = () => {
     const { secrets, deleteSecret } = useAuth();
-    const [revealed, setRevealed] = useState<Record<string, boolean>>({});
-
-    // Secrets are now loaded from context
-
-    const toggleReveal = (id: string) => {
-        setRevealed(prev => ({ ...prev, [id]: !prev[id] }));
-    }
 
     const handleDelete = async (id: string) => {
         if (confirm('Are you sure you want to delete this secret?')) {
             await deleteSecret(id);
-            // Context updates automatically
         }
-    }
-
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text);
     }
 
     if (secrets.length === 0) {
@@ -77,13 +64,6 @@ export const Vault = () => {
 
                                     <div className="flex items-center gap-1">
                                         <button
-                                            onClick={() => toggleReveal(secret.id)}
-                                            className="p-2 hover:bg-surfaceHighlight rounded text-textMuted hover:text-textMain transition-colors"
-                                            title={revealed[secret.id] ? "Hide" : "Reveal"}
-                                        >
-                                            {revealed[secret.id] ? <EyeOff size={18} /> : <Eye size={18} />}
-                                        </button>
-                                        <button
                                             onClick={() => handleDelete(secret.id)}
                                             className="p-2 hover:bg-error/10 hover:text-error rounded text-textMuted transition-colors"
                                             title="Delete"
@@ -92,22 +72,6 @@ export const Vault = () => {
                                         </button>
                                     </div>
                                 </div>
-
-                                {/* Content */}
-                                {revealed[secret.id] && (
-                                    <div className="p-3 bg-background/50 rounded-lg border border-border/50 relative group/code">
-                                        <code className="font-mono text-xs sm:text-sm break-all text-textMuted block">
-                                            {secret.value}
-                                        </code>
-                                        <button
-                                            onClick={() => copyToClipboard(secret.value)}
-                                            className="absolute top-2 right-2 p-1.5 bg-surface border border-border rounded text-textMuted hover:text-primary opacity-0 group-hover/code:opacity-100 transition-opacity"
-                                            title="Copy"
-                                        >
-                                            <Copy size={14} />
-                                        </button>
-                                    </div>
-                                )}
 
                                 {/* Actions */}
                                 <div className="flex gap-3 pt-2">

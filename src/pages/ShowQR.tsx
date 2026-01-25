@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { QRCodeSVG } from 'qrcode.react';
 import { useAuth, type VaultSecret } from '../contexts/AuthContext';
-import { ArrowLeft, Copy, Eye, EyeOff } from 'lucide-react';
+import { ArrowLeft, Copy, Eye, EyeOff, Check } from 'lucide-react';
 import { deriveETHAddress, deriveSOLKeys } from '../utils/wallets';
 import { generateAirGapUrBytes, generateUrCryptoHdKey, generateBackpackUr } from '../utils/ur';
 import clsx from 'clsx';
@@ -19,6 +19,7 @@ export const ShowQR = () => {
     const [showKey, setShowKey] = useState(false);
     const [isUR, setIsUR] = useState(false);
     const [urFormat, setUrFormat] = useState<UrFormat>('airgap');
+    const [copied, setCopied] = useState(false);
 
     // Derived Data
     const [ethAddr, setEthAddr] = useState('');
@@ -89,7 +90,8 @@ export const ShowQR = () => {
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText(getCurrentValue());
-        alert("Copied to clipboard!");
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
     };
 
     return (
@@ -183,8 +185,8 @@ export const ShowQR = () => {
                                 {showKey ? <EyeOff size={16} /> : <Eye size={16} />}
                             </button>
                         )}
-                        <button onClick={copyToClipboard} className="text-textMuted hover:text-primary">
-                            <Copy size={16} />
+                        <button onClick={copyToClipboard} className={clsx("transition-colors", copied ? "text-success" : "text-textMuted hover:text-primary")}>
+                            {copied ? <Check size={16} /> : <Copy size={16} />}
                         </button>
                     </div>
                 </div>
