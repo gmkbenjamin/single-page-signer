@@ -2,6 +2,9 @@ import React from 'react';
 import { Shield, ScanLine, PlusSquare, Settings, Lock } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
+import { ThemeToggle } from './ThemeToggle';
+
+// ...
 
 export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const location = useLocation();
@@ -22,26 +25,32 @@ export const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
                         <div className="p-2 bg-primary/20 rounded-lg text-primary">
                             <Shield size={24} />
                         </div>
-                        <span className="font-bold text-lg tracking-tight">Airgap<span className="text-primary">Vault</span></span>
+                        <span className="font-bold text-lg tracking-tight hidden sm:inline">Airgap<span className="text-primary">Vault</span></span>
                     </Link>
 
-                    <nav className="hidden md:flex gap-4">
-                        {navItems.map((item) => (
-                            <Link
-                                key={item.path}
-                                to={item.path}
-                                className={clsx(
-                                    "px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2",
-                                    location.pathname === item.path
-                                        ? "bg-primary/10 text-primary"
-                                        : "text-textMuted hover:text-textMain hover:bg-white/5"
-                                )}
-                            >
-                                <item.icon size={16} />
-                                {item.name}
-                            </Link>
-                        ))}
-                    </nav>
+                    <div className="flex items-center gap-4">
+                        <nav className="hidden md:flex gap-4">
+                            {navItems.map((item) => (
+                                <Link
+                                    key={item.path}
+                                    to={item.path}
+                                    className={clsx(
+                                        "px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 flex items-center gap-2",
+                                        location.pathname === item.path
+                                            ? "bg-primary/10 text-primary"
+                                            : "text-textMuted hover:text-textMain hover:bg-white/5"
+                                    )}
+                                >
+                                    <item.icon size={16} />
+                                    {item.name}
+                                </Link>
+                            ))}
+                        </nav>
+
+                        <div className="scale-90 origin-right">
+                            <ThemeToggle />
+                        </div>
+                    </div>
                 </div>
             </header>
 

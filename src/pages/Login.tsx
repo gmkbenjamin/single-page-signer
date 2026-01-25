@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Lock, AlertCircle, ArrowRight } from 'lucide-react';
+import { ThemeToggle } from '../components/ThemeToggle';
 
 export const Login = () => {
     const { unlock, isEmpty } = useAuth();
@@ -26,7 +27,11 @@ export const Login = () => {
     if (isEmpty) return null; // Should be handled by Setup component
 
     return (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-textMain animate-fade-in">
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-background text-textMain animate-fade-in relative">
+            <div className="absolute top-4 right-4 z-50">
+                <ThemeToggle />
+            </div>
+
             <div className="w-full max-w-md">
                 <div className="text-center mb-10">
                     <div className="inline-flex p-4 bg-primary/20 rounded-2xl mb-4 text-primary">
@@ -42,7 +47,7 @@ export const Login = () => {
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white mb-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
+                        className="w-full bg-background border border-border rounded-lg px-4 py-3 text-textMain mb-4 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all"
                         placeholder="••••••••"
                         autoFocus
                     />

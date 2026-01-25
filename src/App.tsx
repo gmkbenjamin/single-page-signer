@@ -28,10 +28,17 @@ const AppContent = () => {
         <Route path="/qr/:id" element={<ShowQR />} />
         <Route path="/sign" element={<SignConfirm />} />
         <Route path="/import" element={<Import />} />
+
+
         <Route path="/settings" element={
-          <div className="flex flex-col items-center justify-center h-64 text-textMuted">
-            <h2 className="text-xl font-bold mb-2">Settings</h2>
-            <p>Version 0.2.0 (Encrypted)</p>
+          <div className="flex flex-col items-center justify-center min-h-[50vh] text-textMuted gap-8">
+            <div className="text-center">
+              <h2 className="text-xl font-bold text-textMain mb-2">Settings</h2>
+              <p>Version 0.2.0 (Encrypted)</p>
+            </div>
+
+            <div className="w-full max-w-xs h-px bg-border my-2" />
+
             <button
               onClick={() => {
                 if (confirm("This will delete all your secrets forever. Are you sure?")) {
@@ -39,15 +46,15 @@ const AppContent = () => {
                   window.location.reload();
                 }
               }}
-              className="mt-6 px-6 py-3 border border-error text-error rounded hover:bg-error/10 transition-colors"
+              className="px-6 py-3 border border-error text-error rounded-lg hover:bg-error/10 transition-colors font-medium"
             >
               Reset & Wipe Vault
             </button>
           </div>
         } />
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Layout>
+      </Routes >
+    </Layout >
   );
 }
 
